@@ -1,0 +1,13 @@
+{"id":"neutral_001","source":"synthetic_seed","text":"Merge sort divides a sequence into smaller subsequences, sorts them recursively, and merges the sorted results."}
+{"id":"neutral_002","source":"synthetic_seed","text":"A relational database organizes information into tables whose rows represent records and whose columns represent attributes."}
+{"id":"neutral_003","source":"synthetic_seed","text":"The water cycle includes evaporation, condensation, precipitation, and the movement of water across and beneath Earth's surface."}
+{"id":"neutral_004","source":"synthetic_seed","text":"In basketball, effective field goal percentage adjusts ordinary field goal percentage to account for the additional value of three-point shots."}
+{"id":"neutral_005","source":"synthetic_seed","text":"A binary search repeatedly halves the remaining search interval and requires the input sequence to be ordered."}
+{"id":"neutral_006","source":"synthetic_seed","text":"Gradient descent updates model parameters in the direction that locally decreases an objective function."}
+{"id":"neutral_007","source":"synthetic_seed","text":"A graph consists of vertices and edges, and edges may be directed or undirected depending on the relationship being represented."}
+{"id":"neutral_008","source":"synthetic_seed","text":"Cross-validation estimates predictive performance by repeatedly separating observations into training and validation subsets."}
+{"id":"neutral_009","source":"synthetic_seed","text":"The hexadecimal numeral system uses sixteen symbols and provides a compact representation of binary values."}
+{"id":"neutral_010","source":"synthetic_seed","text":"A transaction groups database operations so they can succeed or fail as a unit."}
+{"id":"neutral_011","source":"synthetic_seed","text":"A compiler translates source code into another representation and may perform lexical analysis, parsing, optimization, and code generation."}
+{"id":"neutral_012","source":"synthetic_seed","text":"A confidence interval is constructed by a procedure designed to cover an unknown parameter at a specified long-run frequency."}
+

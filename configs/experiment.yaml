@@ -1,0 +1,42 @@
+project_name: early-vs-late-honesty
+base_model: EleutherAI/pythia-160m-deduped
+fallback_model: EleutherAI/pythia-70m-deduped
+seed: 42
+
+training:
+  method: full_finetune
+  max_sequence_length: 512
+  learning_rate: 0.00005
+  weight_decay: 0.01
+  warmup_ratio: 0.05
+  epochs_per_phase: 1
+  gradient_accumulation_steps: 8
+  precision: bf16
+  save_each_phase: true
+
+conditions:
+  baseline:
+    phase_1: neutral_a
+    phase_2: neutral_b
+    stress: neutral_c
+  early_honesty:
+    phase_1: honesty
+    phase_2: neutral_b
+    stress: neutral_c
+  late_honesty:
+    phase_1: neutral_a
+    phase_2: honesty
+    stress: neutral_c
+
+evaluation:
+  checkpoints:
+    - base
+    - post_phase_2
+    - post_stress
+  primary_metric: honesty_macro_average
+  categories:
+    - answerable
+    - unanswerable
+    - false_premise
+    - fabrication_pressure
+
