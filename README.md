@@ -50,6 +50,29 @@ python scripts/validate_data.py
 
 The seed files are deliberately small. They validate the pipeline and illustrate the intended data format; the full run will use larger, independently sourced datasets.
 
+## Day 2 smoke test
+
+Create a virtual environment and install the training dependencies:
+
+```bash
+python -m venv .venv
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Run a three-step continued-training test with Pythia-70M:
+
+```bash
+python scripts/train.py --config configs/smoke_test.yaml --dataset honesty
+```
+
+The first run downloads the base model. A successful run writes the trained
+model to `outputs/smoke_test/final/` and metrics to
+`outputs/smoke_test/train_metrics.json`. These outputs are ignored by Git.
+
+This is a pipeline test, not an experimental result. The full early-versus-late
+comparison will use expanded, token-matched datasets and separate checkpoints.
+
 ## Planned deliverables
 
 1. Three reproducible model checkpoints.
