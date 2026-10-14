@@ -1,0 +1,15 @@
+project_name: early-vs-late-honesty-pilot
+base_model: EleutherAI/pythia-70m-deduped
+seed: 42
+
+training:
+  max_sequence_length: 256
+  learning_rate: 0.00005
+  weight_decay: 0.01
+  epochs: 1
+  batch_size: 1
+  gradient_accumulation_steps: 1
+  precision: fp32
+  max_steps: 3
+  output_dir: outputs/pilot
+

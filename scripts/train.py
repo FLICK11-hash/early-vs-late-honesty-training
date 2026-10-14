@@ -35,6 +35,15 @@ def parse_args() -> argparse.Namespace:
         default="honesty",
         help="Seed dataset used for this pipeline test.",
     )
+    parser.add_argument(
+        "--neutral-split",
+        choices=("all", "a", "b", "c"),
+        default="all",
+        help="Use one deterministic third of the neutral records.",
+    )
+    parser.add_argument("--model-name", help="Override the config's base model.")
+    parser.add_argument("--output-dir", type=Path, help="Override the output directory.")
+    parser.add_argument("--max-steps", type=int, help="Override the number of training steps.")
     return parser.parse_args()
 
 
@@ -97,9 +106,12 @@ def main() -> None:
 
     data_path = REPO_ROOT / "data" / f"{args.dataset}_seed.jsonl"
     records = load_jsonl(data_path)
+    if args.dataset == "neutral" and args.neutral_split != "all":
+        split_index = {"a": 0, "b": 1, "c": 2}[args.neutral_split]
+        records = [record for index, record in enumerate(records) if index % 3 == split_index]
     texts = [format_record(record, args.dataset) for record in records]
 
-    model_name = config["base_model"]
+    model_name = args.model_name or config["base_model"]
     print(f"Loading {model_name}")
     print(f"Training on {len(texts)} {args.dataset} records")
 
@@ -116,7 +128,9 @@ def main() -> None:
         max_length=int(train_config["max_sequence_length"]),
     )
 
-    output_dir = REPO_ROOT / train_config["output_dir"]
+    output_dir = args.output_dir or Path(train_config["output_dir"])
+    if not output_dir.is_absolute():
+        output_dir = REPO_ROOT / output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
 
     precision = train_config.get("precision", "fp32")
@@ -128,7 +142,7 @@ def main() -> None:
         gradient_accumulation_steps=int(train_config["gradient_accumulation_steps"]),
         learning_rate=float(train_config["learning_rate"]),
         weight_decay=float(train_config["weight_decay"]),
-        max_steps=int(train_config.get("max_steps", -1)),
+        max_steps=args.max_steps if args.max_steps is not None else int(train_config.get("max_steps", -1)),
         logging_steps=1,
         save_strategy="no",
         report_to="none",

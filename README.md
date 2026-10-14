@@ -73,6 +73,25 @@ model to `outputs/smoke_test/final/` and metrics to
 This is a pipeline test, not an experimental result. The full early-versus-late
 comparison will use expanded, token-matched datasets and separate checkpoints.
 
+## Day 3 three-condition pilot
+
+After the smoke test succeeds, run the complete phase sequence locally:
+
+```bash
+python scripts/run_experiment.py --config configs/pilot.yaml
+```
+
+The runner independently initializes the baseline, early-honesty, and
+late-honesty conditions from Pythia-70M. Each condition receives three short
+training phases. Neutral records are deterministically separated into A, B,
+and C subsets, and both honesty conditions use the identical honesty records.
+
+Phase 2 and post-stress checkpoints are retained under `outputs/pilot/`. Phase
+1 checkpoints are removed after they initialize Phase 2 to limit disk usage.
+`outputs/pilot/run_summary.json` records the phase order, losses, runtimes, and
+checkpoint paths. This remains an engineering pilot; it is not meaningful
+evidence until the datasets and evaluation set are expanded.
+
 ## Planned deliverables
 
 1. Three reproducible model checkpoints.
