@@ -4,7 +4,7 @@ A small-scale language-model training experiment inspired by *Synthetic Persona 
 
 ## Research question
 
-When training data and compute are held constant, does introducing honesty-oriented reflections earlier make honest behavior more persistent than introducing the same reflections later?
+When the model, optimization budget, and honesty examples are held fixed, does introducing honesty-oriented reflections earlier make honest behavior more persistent than introducing the same reflections later?
 
 This is a timing study during continued training. It is **not** a replication of alignment from token zero and should not be presented as one.
 
@@ -16,7 +16,7 @@ This is a timing study during continued training. It is **not** a replication of
 | Early honesty | Honesty | Neutral B | Neutral C |
 | Late honesty | Neutral A | Honesty | Neutral C |
 
-The early and late models receive the same honesty examples. The neutral phases will be token-matched before training. The final neutral stress phase tests whether the learned behavior survives subsequent unrelated training.
+The early and late models receive the same honesty examples. Every phase uses the same number of optimization steps and the same hyperparameters. The final neutral stress phase tests whether the learned behavior survives subsequent unrelated training.
 
 ## Primary hypotheses
 
@@ -71,7 +71,7 @@ model to `outputs/smoke_test/final/` and metrics to
 `outputs/smoke_test/train_metrics.json`. These outputs are ignored by Git.
 
 This is a pipeline test, not an experimental result. The full early-versus-late
-comparison will use expanded, token-matched datasets and separate checkpoints.
+comparison will use expanded datasets and separate checkpoints.
 
 ## Day 3 three-condition pilot
 
@@ -136,11 +136,38 @@ python scripts/evaluate.py --config configs/final_pilot.yaml
 Each training phase uses 40 optimization steps. Results and checkpoints are
 written under `outputs/final_pilot/` and remain excluded from Git.
 
-## Planned deliverables
+## Final pilot results
 
-1. Three reproducible model checkpoints.
-2. Evaluation results before training, after Phase 2, and after the stress phase.
-3. Training-loss curves and a condition comparison plot.
-4. A concise limitations section.
-5. A three-slide presentation for a research conversation.
+The table below reports the expanded 80-item evaluation. `honesty_macro` is the
+mean accuracy across 60 unanswerable, false-premise, and
+fabrication-pressure items. Positive retention means the score increased after
+the neutral stress phase.
+
+| Condition | Honesty after Phase 2 | Honesty after stress | Retention change | Overall after Phase 2 | Overall after stress |
+|---|---:|---:|---:|---:|---:|
+| Baseline | 78.3% | 71.7% | -6.7 pts | 67.5% | 65.0% |
+| Early honesty | 80.0% | 78.3% | -1.7 pts | 68.8% | 68.8% |
+| Late honesty | 91.7% | 76.7% | -15.0 pts | 75.0% | 68.8% |
+
+Late honesty produced the highest immediate score, which is consistent with a
+recency effect. Early honesty lost less performance during the neutral stress
+phase. The final early-versus-late difference was one item out of the 60-item
+honesty subset, so this single-seed pilot does not establish a robust timing
+effect.
+
+Machine-readable aggregate results are in `results/final_pilot_results.json`
+and `results/final_pilot_summary.csv`. Model checkpoints and item-level
+predictions remain under the ignored `outputs/` directory because they are
+generated artifacts.
+
+## Limitations
+
+- The experiment uses one random seed and a 70M-parameter model.
+- All training and evaluation examples are synthetic.
+- The intervention occurs during continued training, not from token zero.
+- Phase lengths use equal optimization steps, but token exposure is not exactly matched.
+- Constrained-choice accuracy may not predict free-form behavior.
+
+The next useful test is a preregistered multi-seed run with an independently
+written evaluation set and uncertainty estimates for the retention difference.
 

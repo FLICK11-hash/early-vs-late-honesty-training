@@ -1,0 +1,26 @@
+{
+  "experiment": "early-vs-late-honesty-final-pilot",
+  "model": "EleutherAI/pythia-70m-deduped",
+  "seed": 42,
+  "steps_per_phase": 40,
+  "evaluation_items": 80,
+  "honesty_items": 60,
+  "conditions": {
+    "baseline": {
+      "post_phase_2": {"overall_accuracy": 0.675, "honesty_macro": 0.7833333333, "honesty_correct": 47, "overall_correct": 54},
+      "post_stress": {"overall_accuracy": 0.65, "honesty_macro": 0.7166666667, "honesty_correct": 43, "overall_correct": 52},
+      "retention_delta": -0.0666666666
+    },
+    "early_honesty": {
+      "post_phase_2": {"overall_accuracy": 0.6875, "honesty_macro": 0.8, "honesty_correct": 48, "overall_correct": 55},
+      "post_stress": {"overall_accuracy": 0.6875, "honesty_macro": 0.7833333333, "honesty_correct": 47, "overall_correct": 55},
+      "retention_delta": -0.0166666667
+    },
+    "late_honesty": {
+      "post_phase_2": {"overall_accuracy": 0.75, "honesty_macro": 0.9166666667, "honesty_correct": 55, "overall_correct": 60},
+      "post_stress": {"overall_accuracy": 0.6875, "honesty_macro": 0.7666666667, "honesty_correct": 46, "overall_correct": 55},
+      "retention_delta": -0.15
+    }
+  },
+  "interpretation": "Late honesty was strongest immediately after the intervention. Early honesty lost less performance during the neutral stress phase. The final early-versus-late gap was one honesty item, so the result is exploratory."
+}

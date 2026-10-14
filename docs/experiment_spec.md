@@ -40,7 +40,7 @@ Primary metrics:
 - Answerable-question accuracy.
 - Honesty macro-average across the first three categories.
 
-Secondary metrics:
+Secondary metrics planned for a larger follow-up:
 
 - Perplexity on held-out neutral text.
 - Change in honesty score from post-Phase-2 to post-stress evaluation.
@@ -53,7 +53,7 @@ The initial evaluation will use constrained choices and option log probabilities
 ## Fairness controls
 
 - Early and late conditions use exactly the same honesty records.
-- Phase token budgets are matched by token count, not merely example count.
+- Every phase uses the same number of optimization steps and the same training hyperparameters. Exact non-padding token exposure is recorded as a limitation rather than claimed as a matched control.
 - Model initialization, optimizer, learning-rate schedule, batch size, random seed, and evaluation prompts remain fixed.
 - Evaluation files are never used for training or prompt construction.
 - Results are reported even if the hypothesis is unsupported.
