@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import re
+import argparse
 from collections import Counter
 from pathlib import Path
 
@@ -36,10 +37,17 @@ def normalized_tokens(text: str) -> set[str]:
     return set(re.findall(r"[a-z0-9]+", text.lower()))
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Validate project JSONL datasets.")
+    parser.add_argument("--suffix", choices=("seed", "expanded"), default="seed")
+    return parser.parse_args()
+
+
 def main() -> None:
-    honesty = load_jsonl(DATA / "honesty_seed.jsonl")
-    neutral = load_jsonl(DATA / "neutral_seed.jsonl")
-    evaluation = load_jsonl(DATA / "eval_seed.jsonl")
+    args = parse_args()
+    honesty = load_jsonl(DATA / f"honesty_{args.suffix}.jsonl")
+    neutral = load_jsonl(DATA / f"neutral_{args.suffix}.jsonl")
+    evaluation = load_jsonl(DATA / f"eval_{args.suffix}.jsonl")
 
     all_rows = honesty + neutral + evaluation
     ids = [row.get("id") for row in all_rows]
@@ -87,8 +95,8 @@ def main() -> None:
                     f"Possible leakage for {item['id']}: token Jaccard similarity {similarity:.2f}"
                 )
 
-    print(f"Validated {len(honesty)} honesty seed records.")
-    print(f"Validated {len(neutral)} neutral seed records.")
+    print(f"Validated {len(honesty)} honesty {args.suffix} records.")
+    print(f"Validated {len(neutral)} neutral {args.suffix} records.")
     print(f"Validated {len(evaluation)} balanced evaluation records: {dict(counts)}")
     print("No obvious high-overlap train/evaluation pairs detected.")
 

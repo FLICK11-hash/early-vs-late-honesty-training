@@ -104,7 +104,8 @@ def main() -> None:
     random.seed(seed)
     torch.manual_seed(seed)
 
-    data_path = REPO_ROOT / "data" / f"{args.dataset}_seed.jsonl"
+    data_suffix = config.get("data_suffix", "seed")
+    data_path = REPO_ROOT / "data" / f"{args.dataset}_{data_suffix}.jsonl"
     records = load_jsonl(data_path)
     if args.dataset == "neutral" and args.neutral_split != "all":
         split_index = {"a": 0, "b": 1, "c": 2}[args.neutral_split]

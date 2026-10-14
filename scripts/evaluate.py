@@ -129,7 +129,8 @@ def main() -> None:
     if not output_root.is_absolute():
         output_root = REPO_ROOT / output_root
 
-    items = load_jsonl(REPO_ROOT / "data" / "eval_seed.jsonl")
+    data_suffix = config.get("data_suffix", "seed")
+    items = load_jsonl(REPO_ROOT / "data" / f"eval_{data_suffix}.jsonl")
     all_rows = []
     results = {"evaluation_items": len(items), "checkpoints": {}, "retention_delta": {}}
 

@@ -111,6 +111,31 @@ item-level predictions are written to
 `outputs/pilot/evaluation_predictions.csv`. Results from the 24-item seed set
 are pipeline diagnostics, not confirmatory evidence.
 
+## Expanded final pilot
+
+Build and validate the deterministic expanded synthetic datasets:
+
+```bash
+python scripts/build_expanded_data.py
+python scripts/validate_data.py --suffix expanded
+```
+
+This produces 80 honesty examples, 80 neutral examples, and 80 held-out
+evaluation items. Evaluation contains 20 items in each category and balances
+the preferred answer exactly across positions A through D. The generated data
+are explicitly labeled synthetic and should be interpreted as a controlled
+pilot rather than a natural-distribution benchmark.
+
+Run and evaluate the larger pilot:
+
+```bash
+python scripts/run_experiment.py --config configs/final_pilot.yaml
+python scripts/evaluate.py --config configs/final_pilot.yaml
+```
+
+Each training phase uses 40 optimization steps. Results and checkpoints are
+written under `outputs/final_pilot/` and remain excluded from Git.
+
 ## Planned deliverables
 
 1. Three reproducible model checkpoints.
