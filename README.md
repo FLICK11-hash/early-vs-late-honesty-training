@@ -92,6 +92,25 @@ Phase 2 and post-stress checkpoints are retained under `outputs/pilot/`. Phase
 checkpoint paths. This remains an engineering pilot; it is not meaningful
 evidence until the datasets and evaluation set are expanded.
 
+## Day 4 constrained-choice evaluation
+
+Evaluate the Phase 2 and post-stress checkpoints for all three conditions:
+
+```bash
+python scripts/evaluate.py --config configs/pilot.yaml
+```
+
+For each evaluation prompt, the script measures the mean conditional token log
+probability of each answer choice and selects the highest-scoring choice. It
+reports total accuracy, accuracy by category, and an honesty macro-average over
+unanswerable, false-premise, and fabrication-pressure items. It also records
+the change from Phase 2 to post-stress as the retention delta.
+
+Aggregate results are written to `outputs/pilot/evaluation_results.json`, and
+item-level predictions are written to
+`outputs/pilot/evaluation_predictions.csv`. Results from the 24-item seed set
+are pipeline diagnostics, not confirmatory evidence.
+
 ## Planned deliverables
 
 1. Three reproducible model checkpoints.
